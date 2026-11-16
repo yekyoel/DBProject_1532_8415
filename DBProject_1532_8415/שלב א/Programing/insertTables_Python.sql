@@ -1,6 +1,6 @@
 -- ============================================================================
 -- Project: College Manpower & HR Management System
--- Institution: Jerusalem College of Technology (JCT)
+-- Institution: Academic College
 -- Submitter ID: 329821532
 -- File: insertTables_Python.sql
 -- Description: 20,000 AttendanceRecord rows + 20,000 Employee_Training rows

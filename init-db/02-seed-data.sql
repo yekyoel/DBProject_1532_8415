@@ -1,6 +1,6 @@
 -- ============================================================================
 -- Project: College Manpower & HR Management System
--- Institution: Jerusalem College of Technology (JCT)
+-- Institution: Academic College
 -- Submitter ID: 329821532
 -- File: insertTables_Manual.sql
 -- Description: Manual baseline data import for Department and TrainingCourse
@@ -8,7 +8,7 @@
 -- ============================================================================
 
 -- ----------------------------------------------------------------------------
--- 1. Insert College Departments (12 realistic JCT departments)
+-- 1. Insert College Departments (12 realistic college departments)
 -- ----------------------------------------------------------------------------
 INSERT INTO Department (DepartmentID, DepartmentName, Budget) VALUES
 (101, 'Software Engineering',                        4500000.00),
@@ -31,7 +31,7 @@ INSERT INTO TrainingCourse (CourseID, CourseName, ProviderName) VALUES
 (201, 'Pedagogical Innovation & Active Teaching Methods',         'Center for Teaching Excellence'),
 (202, 'Laboratory Safety & Hazardous Materials Protocol',         'Occupational Safety & Health Directorate'),
 (203, 'Academic Advising & Student Retention Best Practices',     'Student Counseling & Support Center'),
-(204, 'Research Ethics & Academic Integrity Compliance',          'JCT Ethics & Academic Review Board'),
+(204, 'Research Ethics & Academic Integrity Compliance',          'College Ethics & Academic Review Board'),
 (205, 'Generative AI Tools for Academic Research & Teaching',     'Google for Education & Academia'),
 (206, 'Writing Competitive Research Grant Proposals (ISF, Horizon)', 'National Science Research Foundation'),
 (207, 'Advanced Instructional Technologies for Hybrid Learning',  'Educational Technology Institute'),

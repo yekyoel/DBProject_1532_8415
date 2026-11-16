@@ -1,6 +1,6 @@
 -- ============================================================================
 -- Project: College Manpower & HR Management System
--- Institution: Jerusalem College of Technology (JCT)
+-- Institution: Academic College
 -- Submitter ID: 329821532
 -- File: insertTables_Mockaroo.sql
 -- Description: 500 records for Employee, AdministrativeStaff (250), AcademicStaff (250)

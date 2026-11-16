@@ -1,6 +1,6 @@
 -- ============================================================================
 -- Project: College Manpower & HR Management System
--- Institution: Jerusalem College of Technology (JCT)
+-- Institution: Academic College
 -- Submitter ID: 329821532
 -- File: selectAll.sql
 -- Description: Queries to display sample data and verify total row counts

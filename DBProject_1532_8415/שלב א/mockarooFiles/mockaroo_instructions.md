@@ -1,5 +1,5 @@
 # Mockaroo Data Generation Guide (Method 2)
-## College Manpower & HR Management System (JCT)
+## College Manpower & HR Management System
 **Submitter ID:** 329821532
 
 ---

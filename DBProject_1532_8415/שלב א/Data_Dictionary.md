@@ -1,5 +1,5 @@
 # Data Dictionary
-## College Manpower & HR Management System (JCT)
+## College Manpower & HR Management System
 **Submitter ID:** 329821532  
 **Stage:** Stage A  
 **Date:** 2026-11-02  
@@ -23,7 +23,7 @@
 ---
 
 ### 1. System Overview & Architecture
-The **College Manpower & Human Resources (HR) Management System** is a normalized relational database designed to track, manage, and optimize all aspects of college personnel at the **Jerusalem College of Technology (JCT)**.
+The **College Manpower & Human Resources (HR) Management System** is a normalized relational database designed to track, manage, and optimize all aspects of college personnel at an academic college.
 
 The system encompasses:
 - **Staff Hierarchy:** A distinct partition between academic faculty (professors, lecturers, researchers) and administrative staff (department coordinators, operations, finance, IT, HR).

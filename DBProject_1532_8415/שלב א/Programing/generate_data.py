@@ -2,7 +2,7 @@
 """
 ============================================================================
 Project: College Manpower & HR Management System
-Institution: Jerusalem College of Technology (JCT)
+Institution: Academic College
 Submitter ID: 329821532
 File: generate_data.py
 Description: Generates 20,000 AttendanceRecord rows and 20,000
@@ -148,7 +148,7 @@ def main():
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         f.write("-- " + "="*76 + "\n")
         f.write("-- Project: College Manpower & HR Management System\n")
-        f.write("-- Institution: Jerusalem College of Technology (JCT)\n")
+        f.write("-- Institution: Academic College\n")
         f.write("-- Submitter ID: 329821532\n")
         f.write("-- File: insertTables_Python.sql\n")
         f.write("-- Description: 20,000 AttendanceRecord rows + 20,000 Employee_Training rows\n")

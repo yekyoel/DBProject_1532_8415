@@ -1,6 +1,6 @@
 -- ============================================================================
 -- Project: College Manpower & HR Management System
--- Institution: Jerusalem College of Technology (JCT)
+-- Institution: Academic College
 -- Submitter ID: 329821532
 -- File: createTables.sql
 -- Description: 3NF Relational Database Schema Creation Script
