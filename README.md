@@ -96,8 +96,14 @@
 
 ---
 
-### 📍 שלב ב׳ — שאילתות מתקדמות, פונקציות ואינדקסים (בקרוב)
-*(יושלם ויתועד בתיקייה ייעודית בהמשך הסמסטר)*
+### 📍 [שלב ב׳ — שאילתות, אילוצים, טרנזקציות ואינדקסים (לחצו למעבר לדוח המלא)](DBProject_1532_8415/שלב%20ב/README.md)
+* **מה בוצע בשלב זה:** 8 שאילתות SELECT (4 בשתי צורות עם השוואת יעילות), 3 DELETE, 3 UPDATE, הדגמת ROLLBACK/COMMIT, 3 אילוצים חדשים ו־3 אינדקסים עם מדידת זמני ריצה.
+* **קישור ישיר לקובצי שלב ב׳:**
+  - [דוח שלב ב׳ — README של שלב ב׳](DBProject_1532_8415/שלב%20ב/README.md)
+  - [שאילתות (`Queries.sql`)](DBProject_1532_8415/שלב%20ב/Queries.sql)
+  - [אילוצים (`Constraints.sql`)](DBProject_1532_8415/שלב%20ב/Constraints.sql)
+  - [טרנזקציות (`RollbackCommit.sql`)](DBProject_1532_8415/שלב%20ב/RollbackCommit.sql)
+  - [אינדקסים (`Index.sql`)](DBProject_1532_8415/שלב%20ב/Index.sql)
 
 ---
 
@@ -112,7 +118,7 @@
 
 | Dashboard | Departments | Staff Directory | Attendance |
 | :---: | :---: | :---: | :---: |
-| ![Dashboard](screenshots/dashboard.png) | ![Departments](screenshots/department.png) | ![Staff](screenshots/staff.png) | ![Attendance](screenshots/attendence.png) |
+| ![Dashboard](screenshots/stage1/dashboard.png) | ![Departments](screenshots/stage1/department.png) | ![Staff](screenshots/stage1/staff.png) | ![Attendance](screenshots/stage1/attendence.png) |
 
 * **קישור לאפליקציה החיה:** [פתיחה ב־Google AI Studio](https://ai.studio/apps/26c68d43-b8ed-48e8-93e4-edd17ac53a6a?fullscreenApplet=true)
 
@@ -156,13 +162,9 @@ collegeProject/
 ├── docker-compose.yml             # קובץ הגדרת שירותי Docker (PostgreSQL + pgAdmin)
 ├── .env                           # קובץ הגדרות סביבה וסיסמאות מקומי
 │
-├── screenshots/                   # צילומי מסך של ממשקי המערכת, הגיבויים והשחזורים
-│   ├── dashboard.png
-│   ├── department.png
-│   ├── staff.png
-│   ├── attendence.png
-│   ├── גיבוי.png
-│   └── הוכחה לגיבוי אצל השותף.jpeg
+├── screenshots/                   # צילומי מסך של ממשקי המערכת, הגיבויים, השאילתות והבדיקות
+│   ├── stage1/                    # צילומי מסך של שלב א' (UI, אכלוס, גיבויים)
+│   └── stage2/                    # צילומי מסך של שלב ב' (שאילתות, אילוצים, טרנזקציות ואינדקסים)
 │
 ├── init-db/                       # סקריפטים לאתחול אוטומטי של קונטיינר PostgreSQL
 │   ├── 01-schema.sql
@@ -183,4 +185,11 @@ collegeProject/
         ├── Programing/            # שיטת אכלוס 1: סקריפט Python ו-Faker
         ├── ERD&DSD/               # תרשימי המודל וקובצי מקור ב-ERDPlus
         └── UI_mockUp/             # קוד מקור מלא של אב-הטיפוס (React)
+    └── שלב ב/                    # שלב ב' — שאילתות, אילוצים ואינדקסים
+        ├── README.md              # דוח שלב ב'
+        ├── Queries.sql            # 8 SELECT, 3 DELETE, 3 UPDATE
+        ├── Constraints.sql        # 3 אילוצים חדשים (ALTER TABLE)
+        ├── RollbackCommit.sql     # הדגמת ROLLBACK ו-COMMIT
+        ├── Index.sql              # 3 אינדקסים + EXPLAIN ANALYZE
+        └── backup2                # גיבוי מעודכן
 ```

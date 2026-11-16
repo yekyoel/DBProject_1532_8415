@@ -42,10 +42,10 @@
 
 | שם המסך | תפקיד ופונקציונליות עיקרית | תצוגה מקדימה |
 | :--- | :--- | :--- |
-| **Dashboard** | לוח מחוונים ראשי למשאבי אנוש: התפלגות סגל, מדדי נוכחות ומעקב תקציבי | ![Dashboard](../../screenshots/dashboard.png) |
-| **Departments** | ניהול רשימת המחלקות, תקציב שנתי מוקצה ומספר אנשי הסגל המשויכים | ![Departments](../../screenshots/department.png) |
-| **Staff Directory** | מאגר עובדים: סינון לפי סגל אקדמי/מנהלי, פרטי שכר ופרטי תפקיד | ![Staff](../../screenshots/staff.png) |
-| **Attendance** | שעון נוכחות ויומן מעקב דיווחי כניסה ויציאה של עובדים | ![Attendance](../../screenshots/attendence.png) |
+| **Dashboard** | לוח מחוונים ראשי למשאבי אנוש: התפלגות סגל, מדדי נוכחות ומעקב תקציבי | ![Dashboard](../../screenshots/stage1/dashboard.png) |
+| **Departments** | ניהול רשימת המחלקות, תקציב שנתי מוקצה ומספר אנשי הסגל המשויכים | ![Departments](../../screenshots/stage1/department.png) |
+| **Staff Directory** | מאגר עובדים: סינון לפי סגל אקדמי/מנהלי, פרטי שכר ופרטי תפקיד | ![Staff](../../screenshots/stage1/staff.png) |
+| **Attendance** | שעון נוכחות ויומן מעקב דיווחי כניסה ויציאה של עובדים | ![Attendance](../../screenshots/stage1/attendence.png) |
 
 * **קישור לממשק החי ב־Google AI Studio:**  
   [פתיחת האפליקציה ב־Google AI Studio](https://ai.studio/apps/26c68d43-b8ed-48e8-93e4-edd17ac53a6a?fullscreenApplet=true)
@@ -151,7 +151,7 @@
 
 | שיטה 1: Python & Faker | שיטה 2: Mockaroo | שיטה 3: פקודות SQL ידניות |
 | :---: | :---: | :---: |
-| ![Python](../../screenshots/python_population.png) | ![Mockaroo](../../screenshots/mockaroo_population.png) | ![Manual SQL](../../screenshots/manual_population.png) |
+| ![Python](../../screenshots/stage1/python_population.png) | ![Mockaroo](../../screenshots/stage1/mockaroo_population.png) | ![Manual SQL](../../screenshots/stage1/manual_population.png) |
 
 ### ספירת שורות סופית במסד הנתונים (בדיקת audit.sql):
 
@@ -181,12 +181,12 @@
 
 | גיבוי משורת הפקודה (Docker CLI) | אישור גיבוי בממשק pgAdmin 4 |
 | :---: | :---: |
-| ![גיבוי CLI](../../screenshots/גיבוי.png) | ![גיבוי pgAdmin](../../screenshots/pgAdminאישור%20לגיבוי%20של%20קובץ.png) |
+| ![גיבוי CLI](../../screenshots/stage1/גיבוי.png) | ![גיבוי pgAdmin](../../screenshots/stage1/pgAdminאישור%20לגיבוי%20של%20קובץ.png) |
 
 ### בדיקת שחזור אצל השותף (PostgreSQL 17):
 קובץ הגיבוי הועבר למחשב של השותף ושוחזר בהצלחה מלאה. כל שבע הטבלאות וכל 43,000 הרשומות עלו בצורה תקינה:
 
-![הוכחת שחזור אצל השותף](../../screenshots/הוכחה%20לגיבוי%20אצל%20השותף.jpeg)
+![הוכחת שחזור אצל השותף](../../screenshots/stage1/הוכחה%20לגיבוי%20אצל%20השותף.jpeg)
 
 ---
 

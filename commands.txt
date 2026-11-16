@@ -1,2 +1,8 @@
 docker-compose up -d --build
 docker-compose down -v
+
+
+Host name: db
+Maintenance database: collegeDB
+Username: yoel
+Password: yoel
