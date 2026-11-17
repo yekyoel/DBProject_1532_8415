@@ -659,5 +659,5 @@ SELECT DepartmentID, DepartmentName, Budget FROM Department WHERE DepartmentID =
 | [`Constraints.sql`](Constraints.sql) | 3 אילוצים חדשים באמצעות `ALTER TABLE` + דוגמאות הפרה |
 | [`RollbackCommit.sql`](RollbackCommit.sql) | הדגמת טרנזקציות עם `ROLLBACK` ו־`COMMIT` |
 | [`Index.sql`](Index.sql) | 3 אינדקסים ובדיקת זמני ריצה לפני/אחרי באמצעות `EXPLAIN ANALYZE` |
-| `backup2` | קובץ גיבוי מעודכן של בסיס הנתונים לשלב ב׳ |
+| [`backup2`](backup2) | קובץ גיבוי מעודכן של בסיס הנתונים לשלב ב׳ |
 | [`README.md`](README.md) | דוח מפורט זה לשלב ב׳ |

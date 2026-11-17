@@ -104,6 +104,7 @@
   - [אילוצים (`Constraints.sql`)](DBProject_1532_8415/שלב%20ב/Constraints.sql)
   - [טרנזקציות (`RollbackCommit.sql`)](DBProject_1532_8415/שלב%20ב/RollbackCommit.sql)
   - [אינדקסים (`Index.sql`)](DBProject_1532_8415/שלב%20ב/Index.sql)
+  - [קובץ גיבוי מעודכן (`backup2`)](DBProject_1532_8415/שלב%20ב/backup2)
 
 ---
 
