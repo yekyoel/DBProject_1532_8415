@@ -606,6 +606,9 @@ SELECT DepartmentID, DepartmentName, Budget FROM Department WHERE DepartmentID =
 | **C2** | `chk_reasonable_clockin` | `AttendanceRecord` | `ALTER TABLE AttendanceRecord ADD CONSTRAINT chk_reasonable_clockin CHECK (ClockInTime >= '05:00:00' AND ClockInTime <= '16:00:00');` | מונע דיווחי כניסה בשעות לא סבירות (למשל 03:00 לפנות בוקר) כתוצאה מטעות הקלדה, ושומר על דיוק דוחות השעות. |
 | **C3** | `uq_employee_workdate` | `AttendanceRecord` | `ALTER TABLE AttendanceRecord ADD CONSTRAINT uq_employee_workdate UNIQUE (EmployeeID, WorkDate);` | מבטיח שעובד לא יוכל לדווח שתי רשומות נוכחות באותו תאריך, ויוצר אוטומטית אינדקס B-Tree משולב על `(EmployeeID, WorkDate)`. |
 
+### הרצת פקודות `ALTER TABLE` להוספת האילוצים:
+![Constraints ALTER TABLE](../../screenshots/stage2/constraints_alter.png)
+
 ### ניסיונות הכנסת נתונים הסותרים את האילוצים (שגיאות הרצה):
 
 | הפרת אילוץ C1 (`BaseSalary = 3000`) | הפרת אילוץ C2 (`ClockInTime = '03:00:00'`) | הפרת אילוץ C3 (תאריך כפול לאותו עובד) |
@@ -618,19 +621,33 @@ SELECT DepartmentID, DepartmentName, Budget FROM Department WHERE DepartmentID =
 
 קוד מלא: [`Index.sql`](Index.sql) — זמני הריצה ותוכניות הביצוע נבדקו באמצעות `EXPLAIN ANALYZE` לפני ואחרי יצירת כל אינדקס.
 
-| # | שם האינדקס | הגדרת האינדקס | מוטיבציה | זמן לפני (ms) | זמן אחרי (ms) |
+| # | שם האינדקס | הגדרת האינדקס | מוטיבציה | לפני הוספת האינדקס | אחרי הוספת האינדקס |
 |---|---|---|---|---|---|
-| **I1** | `idx_employee_departmentid` | `CREATE INDEX idx_employee_departmentid ON Employee(DepartmentID);` | עמודת מפתח זר המשמשת בצירופים ובסינונים לפי מחלקה (Q1, Q2, Q4, Q7, Q8). | ___ | ___ |
-| **I2** | `idx_attendance_workdate` | `CREATE INDEX idx_attendance_workdate ON AttendanceRecord(WorkDate);` | טבלה בת 20,000 שורות; מאיץ סינון לפי טווחי תאריכים (Q1, Q3, Q7). | ___ | ___ |
-| **I3** | `idx_training_completiondate` | `CREATE INDEX idx_training_completiondate ON Employee_Training(CompletionDate);` | טבלה בת 20,000 שורות; משמשת לשאילתות ולדוחות לפי תאריך השלמת קורס (Q2, Q6, D2, D3). | ___ | ___ |
+| **I1** | `idx_employee_departmentid` | `CREATE INDEX idx_employee_departmentid ON Employee(DepartmentID);` | עמודת מפתח זר המשמשת בצירופים ובסינונים לפי מחלקה (Q1, Q2, Q4, Q7, Q8). | **0.387 ms** (`Seq Scan`, cost=`35.32`, הסרת 947 שורות בסינון) | **0.945 ms** (`Bitmap Index Scan`, cost ירד ל־`28.17`) |
+| **I2** | `idx_attendance_workdate` | `CREATE INDEX idx_attendance_workdate ON AttendanceRecord(WorkDate);` | טבלה בת 20,000 שורות; מאיץ סינון לפי טווחי תאריכים (Q1, Q3, Q7). | **2.245 ms** (`Seq Scan`, cost=`439.97`, הסרת 13,850 שורות) | **0.757 ms** (`Bitmap Index Scan`, cost=`310.33` — **שיפור של פי 3**) |
+| **I3** | `idx_training_completiondate` | `CREATE INDEX idx_training_completiondate ON Employee_Training(CompletionDate);` | טבלה בת 20,000 שורות; משמשת לשאילתות ולדוחות לפי תאריך השלמת קורס (Q2, Q6, D2, D3). | **15.982 ms** (`Seq Scan` + `HashAggregate`, Planning=`2.073 ms`) | **3.496 ms** (`Seq Scan` + `HashAggregate`, Planning=`0.239 ms`) |
 
-| אינדקס 1 — לפני ואחרי | אינדקס 2 — לפני ואחרי | אינדקס 3 — לפני ואחרי |
-| :---: | :---: | :---: |
-| ![Index 1](../../screenshots/stage2/idx1.png) | ![Index 2](../../screenshots/stage2/idx2.png) | ![Index 3](../../screenshots/stage2/idx3.png) |
+### צילומי הרצה של `EXPLAIN ANALYZE` — לפני ואחרי כל אינדקס:
+
+#### אינדקס 1 (`idx_employee_departmentid` על `Employee.DepartmentID`):
+| לפני יצירת האינדקס (`Seq Scan`) | אחרי יצירת האינדקס (`Bitmap Index Scan`) |
+| :---: | :---: |
+| ![Index 1 Before](../../screenshots/stage2/idx1_before.png) | ![Index 1 After](../../screenshots/stage2/idx1_after.png) |
+
+#### אינדקס 2 (`idx_attendance_workdate` על `AttendanceRecord.WorkDate`):
+| לפני יצירת האינדקס (`2.245 ms` — `Seq Scan`) | אחרי יצירת האינדקס (`0.757 ms` — `Bitmap Index Scan`) |
+| :---: | :---: |
+| ![Index 2 Before](../../screenshots/stage2/idx2_before.png) | ![Index 2 After](../../screenshots/stage2/idx2_after.png) |
+
+#### אינדקס 3 (`idx_training_completiondate` על `Employee_Training.CompletionDate`):
+| לפני יצירת האינדקס (`15.982 ms`) | אחרי יצירת האינדקס (`3.496 ms`) |
+| :---: | :---: |
+| ![Index 3 Before](../../screenshots/stage2/idx3_before.png) | ![Index 3 After](../../screenshots/stage2/idx3_after.png) |
 
 **הסבר התוצאות:**
-- **אינדקסים I1 ו־I2:** לפני הוספת האינדקס, מתכנן השאילתות ביצע סריקה סדרתית מלאה של הטבלה (**Seq Scan**). לאחר הוספת אינדקס B-Tree, המתכנן עבר ל־**Index Scan / Bitmap Index Scan**, ניגש ישירות לדפי הנתונים הרלוונטיים, וזמן הריצה התקצר.
-- **אינדקס I3:** בשאילתת קיבוץ (`GROUP BY EXTRACT(YEAR FROM CompletionDate)`) הקוראת את כל 20,000 השורות ללא תנאי סינון (`WHERE`), המתכנן של PostgreSQL מעדיף לעיתים להמשיך ב־**Seq Scan** מאחר שקריאה רציפה של כל הטבלה זולה יותר ממעבר דרך עץ האינדקס עבור 100% מהשורות. לעומת זאת, בשאילתות המסננות טווח תאריכים מצומצם האינדקס מקצר משמעותית את זמן הריצה.
+- **אינדקס I1 (`Employee.DepartmentID`):** לפני הוספת האינדקס מתכנן השאילתות ביצע **Seq Scan** על כל 1,000 שורות טבלת `Employee` וסינן החוצה 947 שורות (`cost=35.32`). לאחר הוספת האינדקס המתכנן עבר ל־**Bitmap Index Scan + Bitmap Heap Scan** על 53 השורות הרלוונטיות בלבד והוריד את העלות החזויה ל־`28.17`. בריצה הראשונה מיד לאחר יצירת האינדקס נדרשה קריאה ראשונית של שני בלוקים מהדיסק (`read=2`) ולכן הזמן בפועל היה 0.945ms לעומת 0.387ms מהזיכרון המטמון בטבלה קטנה של 14 דפים בלבד. בטבלאות גדולות יותר החיסכון של ה־Bitmap Index Scan משמעותי מאוד.
+- **אינדקס I2 (`AttendanceRecord.WorkDate`):** מדגים בצורה מובהקת את התועלת של אינדקס B-Tree בטבלה גדולה (כ־20,000 שורות): לפני האינדקס בוצע **Seq Scan** שקרא וסרק את כל הטבלה וסינן 13,850 שורות ב־**2.245 ms** (`cost=439.97`). לאחר הוספת האינדקס המתכנן עבר ל־**Bitmap Index Scan** שקפץ ישירות לטווח התאריכים המבוקש, וזמן הריצה צנח ל־**0.757 ms** — **שיפור של פי 3 במהירות הריצה**.
+- **אינדקס I3 (`Employee_Training.CompletionDate`):** השאילתה מבצעת קיבוץ (`GROUP BY EXTRACT(YEAR FROM CompletionDate)`) על **כל** שורות הטבלה ללא תנאי `WHERE`. מאחר שיש לקרוא 100% מהשורות בכל מקרה, המתכנן של PostgreSQL בוחר בחוכמה להמשיך ב־**Seq Scan** (קריאה רציפה של 109 בלוקים מהירה יותר מגישה אקראית דרך אינדקס לכל שורות הטבלה). זמן הריצה התקצר מ־**15.982 ms** ל־**3.496 ms** בזכות הימצאות כל 109 הדפים בזיכרון המטמון (`shared hit=109`) ועדכון סטטיסטיקות הטבלה בעת בניית האינדקס. כאשר מוסיפים תנאי סינון על טווח תאריכים (כמו ב־Q2 או D2), המתכנן משתמש באינדקס זה לביצוע Index Scan מהיר.
 
 ---
 

@@ -24,7 +24,7 @@ SELECT e.EmployeeID, e.FirstName, e.LastName, d.DepartmentName, e.BaseSalary
 FROM Employee e
 JOIN Department d ON e.DepartmentID = d.DepartmentID
 WHERE e.DepartmentID = 103;
--- Record "Execution Time" here: ____ ms
+-- Record "Execution Time" here: 0.387 ms (Seq Scan on employee, cost=0.00..35.32)
 
 -- ---- CREATE INDEX ----------------------------------------------------------
 CREATE INDEX idx_employee_departmentid ON Employee(DepartmentID);
@@ -35,7 +35,7 @@ SELECT e.EmployeeID, e.FirstName, e.LastName, d.DepartmentName, e.BaseSalary
 FROM Employee e
 JOIN Department d ON e.DepartmentID = d.DepartmentID
 WHERE e.DepartmentID = 103;
--- Record "Execution Time" here: ____ ms
+-- Record "Execution Time" here: 0.945 ms (Bitmap Index Scan on idx_employee_departmentid, cost dropped to 4.96..28.17)
 
 -- =============================================================================
 -- INDEX 2: AttendanceRecord.WorkDate
@@ -50,7 +50,7 @@ EXPLAIN ANALYZE
 SELECT EmployeeID, WorkDate, ClockInTime, ClockOutTime
 FROM AttendanceRecord
 WHERE WorkDate BETWEEN '2026-01-01' AND '2026-06-30';
--- Record "Execution Time" here: ____ ms
+-- Record "Execution Time" here: 2.245 ms (Seq Scan on attendancerecord, cost=0.00..439.97)
 
 -- ---- CREATE INDEX ----------------------------------------------------------
 CREATE INDEX idx_attendance_workdate ON AttendanceRecord(WorkDate);
@@ -60,7 +60,7 @@ EXPLAIN ANALYZE
 SELECT EmployeeID, WorkDate, ClockInTime, ClockOutTime
 FROM AttendanceRecord
 WHERE WorkDate BETWEEN '2026-01-01' AND '2026-06-30';
--- Record "Execution Time" here: ____ ms
+-- Record "Execution Time" here: 0.757 ms (Bitmap Index Scan on idx_attendance_workdate, cost=80.32..310.33)
 
 -- =============================================================================
 -- INDEX 3: Employee_Training.CompletionDate
@@ -79,7 +79,7 @@ SELECT CourseID,
 FROM Employee_Training
 GROUP BY CourseID, EXTRACT(YEAR FROM CompletionDate)
 ORDER BY CompletionCount DESC;
--- Record "Execution Time" here: ____ ms
+-- Record "Execution Time" here: 15.982 ms (Planning Time: 2.073 ms)
 
 -- ---- CREATE INDEX ----------------------------------------------------------
 CREATE INDEX idx_training_completiondate ON Employee_Training(CompletionDate);
@@ -92,7 +92,7 @@ SELECT CourseID,
 FROM Employee_Training
 GROUP BY CourseID, EXTRACT(YEAR FROM CompletionDate)
 ORDER BY CompletionCount DESC;
--- Record "Execution Time" here: ____ ms
+-- Record "Execution Time" here: 3.496 ms (Planning Time: 0.239 ms)
 
 -- =============================================================================
 -- Verify all indexes were created

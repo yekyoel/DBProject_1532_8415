@@ -35,10 +35,10 @@ ALTER TABLE Employee
     CHECK (BaseSalary >= 5000);
 
 -- Violation example (will raise ERROR: new row violates check constraint):
--- INSERT INTO Employee (EmployeeID, FirstName, LastName, ID_Number, HireDate,
---                       BaseSalary, DepartmentID, EmployeeType)
--- VALUES (9999, 'Test', 'User', '999999999', '2024-01-01',
---         3000, 101, 'Administrative');
+ INSERT INTO Employee (EmployeeID, FirstName, LastName, ID_Number, HireDate,
+                       BaseSalary, DepartmentID, EmployeeType)
+ VALUES (9999, 'Test', 'User', '999999999', '2024-01-01',
+         3000, 101, 'Administrative');
 -- ERROR:  new row for relation "employee" violates check constraint "chk_min_salary"
 
 -- ============================================================
@@ -52,9 +52,9 @@ ALTER TABLE AttendanceRecord
     CHECK (ClockInTime >= '05:00:00' AND ClockInTime <= '16:00:00');
 
 -- Violation example:
--- INSERT INTO AttendanceRecord (EmployeeID, RecordID, WorkDate,
---                               ClockInTime, ClockOutTime)
--- VALUES (1, 99999, '2026-11-01', '03:00:00', '11:00:00');
+ INSERT INTO AttendanceRecord (EmployeeID, RecordID, WorkDate,
+                               ClockInTime, ClockOutTime)
+ VALUES (1, 99999, '2026-11-01', '03:00:00', '11:00:00');
 -- ERROR:  new row for relation "attendancerecord" violates check constraint
 --         "chk_reasonable_clockin"
 
@@ -69,10 +69,10 @@ ALTER TABLE AttendanceRecord
     UNIQUE (EmployeeID, WorkDate);
 
 -- Violation example:
--- INSERT INTO AttendanceRecord (EmployeeID, RecordID, WorkDate,
---                               ClockInTime, ClockOutTime)
--- VALUES (1, 99998, '2025-03-15', '08:00:00', '17:00:00');
--- (Assuming employee 1 already has a record on 2025-03-15)
+INSERT INTO AttendanceRecord (EmployeeID, RecordID, WorkDate,
+                               ClockInTime, ClockOutTime)
+ VALUES (1, 99998, '2025-01-05', '08:00:00', '17:00:00');
+ (Employee 1 already has a record on 2025-01-05)
 -- ERROR:  duplicate key value violates unique constraint "uq_employee_workdate"
 
 -- ============================================================
