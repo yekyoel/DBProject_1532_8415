@@ -1,4 +1,6 @@
 # דוח פרויקט מסדי נתונים — שלב א׳
+
+[חזרה לסיכום הפרויקט](../../README.md)
 ## מערכת ניהול כוח אדם ומשאבי אנוש למכללה (College Manpower & HR Management System)
 
 **סוג המוסד:** מכללה אקדמית (College)  
@@ -40,12 +42,29 @@
 
 במסגרת תכנון המערכת והבנת צורכי המשתמש, אופיינו ארבעה מסכי מפתח באב־טיפוס אינטראקטיבי שנבנה באמצעות **Google AI Studio**:
 
-| שם המסך | תפקיד ופונקציונליות עיקרית | תצוגה מקדימה |
-| :--- | :--- | :--- |
-| **Dashboard** | לוח מחוונים ראשי למשאבי אנוש: התפלגות סגל, מדדי נוכחות ומעקב תקציבי | ![Dashboard](../../screenshots/stage1/dashboard.png) |
-| **Departments** | ניהול רשימת המחלקות, תקציב שנתי מוקצה ומספר אנשי הסגל המשויכים | ![Departments](../../screenshots/stage1/department.png) |
-| **Staff Directory** | מאגר עובדים: סינון לפי סגל אקדמי/מנהלי, פרטי שכר ופרטי תפקיד | ![Staff](../../screenshots/stage1/staff.png) |
-| **Attendance** | שעון נוכחות ויומן מעקב דיווחי כניסה ויציאה של עובדים | ![Attendance](../../screenshots/stage1/attendence.png) |
+### Dashboard
+
+לוח מחוונים ראשי למשאבי אנוש: התפלגות סגל, מדדי נוכחות ומעקב תקציבי.
+
+<img src="../../screenshots/stage1/dashboard.png" alt="Dashboard" width="100%">
+
+### Departments
+
+ניהול רשימת המחלקות, התקציב השנתי המוקצה ומספר אנשי הסגל המשויכים.
+
+<img src="../../screenshots/stage1/department.png" alt="Departments" width="100%">
+
+### Staff Directory
+
+מאגר עובדים המאפשר סינון לפי סגל אקדמי או מנהלי, והצגת פרטי שכר ותפקיד.
+
+<img src="../../screenshots/stage1/staff.png" alt="Staff Directory" width="100%">
+
+### Attendance
+
+שעון נוכחות ויומן מעקב לדיווחי כניסה ויציאה של עובדים.
+
+<img src="../../screenshots/stage1/attendence.png" alt="Attendance" width="100%">
 
 * **קישור לממשק החי ב־Google AI Studio:**  
   [פתיחת האפליקציה ב־Google AI Studio](https://ai.studio/apps/26c68d43-b8ed-48e8-93e4-edd17ac53a6a?fullscreenApplet=true)
@@ -118,7 +137,7 @@
 
 ## 6. אכלוס הנתונים בשלוש שיטות (Data Population)
 
-על פי דרישות ההנחיות לשלב א׳, הנתונים נוצרו ואוכלסו ב־**3 שיטות שונות לחלוטין**, ובנוסף הורחבו לכמות מספקת (מעל 500 בכל טבלה ומעל 20,000 בשתיים מהן):
+על פי דרישות ההנחיות לשלב א׳, הנתונים נוצרו ואוכלסו ב־**3 שיטות שונות לחלוטין**, ובנוסף הורחבו לכמות מספקת (לפחות 500 בכל טבלה ולפחות 20,000 בשתיים מהן):
 
 ```
                                   [ שיטות אכלוס הנתונים ]
@@ -132,7 +151,6 @@
   20,000 Training                     250 Administrative Staff            18 Training Courses
                                       250 Academic Staff
 ```
-
 ### פירוט שלוש השיטות:
 1. **שיטה 1 — תסריט Python וספריית Faker:**
    - קובץ: [`Programing/generate_data.py`](Programing/generate_data.py) -> יוצר את [`Programing/insertTables_Python.sql`](Programing/insertTables_Python.sql).
@@ -144,14 +162,22 @@
    - קובץ: [`DataImportFiles/insertTables_Manual.sql`](DataImportFiles/insertTables_Manual.sql).
    - מייצר **12 מחלקות ריאליסטיות** של המכללה ו־**18 קורסי הדרכה** פדגוגיים ותעשייתיים.
 4. **השלמה כמותית מלאה:**
-   - קובץ [`insertTables_Extra.sql`](insertTables_Extra.sql) משלים את יתרת השורות הנדרשות בטבלאות התשתית לכדי מעל 500 שורות.
+   - קובץ [`insertTables_Extra.sql`](insertTables_Extra.sql) משלים את יתרת השורות הנדרשות בטבלאות התשתית לכדי לפחות 500 שורות.
    - קובץ [`insertTables.sql`](insertTables.sql) הוא הקובץ המאוחד המכיל את כלל הפקודות.
 
 ### צילומי מסך מהרצת שלוש שיטות האכלוס:
 
-| שיטה 1: Python & Faker | שיטה 2: Mockaroo | שיטה 3: פקודות SQL ידניות |
-| :---: | :---: | :---: |
-| ![Python](../../screenshots/stage1/python_population.png) | ![Mockaroo](../../screenshots/stage1/mockaroo_population.png) | ![Manual SQL](../../screenshots/stage1/manual_population.png) |
+#### שיטה 1 — Python ו־Faker
+
+<img src="../../screenshots/stage1/python_population.png" alt="הרצת אכלוס Python" width="100%">
+
+#### שיטה 2 — Mockaroo
+
+<img src="../../screenshots/stage1/mockaroo_population.png" alt="הרצת אכלוס Mockaroo" width="100%">
+
+#### שיטה 3 — SQL ידני
+
+<img src="../../screenshots/stage1/manual_population.png" alt="הרצת אכלוס SQL ידני" width="100%">
 
 ### ספירת שורות סופית במסד הנתונים (בדיקת audit.sql):
 
@@ -160,8 +186,8 @@
 | `Department` | $\ge 500$ | **500** | מאוכלס ותקין |
 | `TrainingCourse` | $\ge 500$ | **500** | מאוכלס ותקין |
 | `Employee` | $\ge 500$ | **1,000** | מאוכלס ותקין |
-| `AdministrativeStaff` | $\ge 500$ (יחד עם סגל אקדמי) | **500** | מאוכלס ותקין |
-| `AcademicStaff` | $\ge 500$ (יחד עם סגל מנהלי) | **500** | מאוכלס ותקין |
+| `AdministrativeStaff` | $\ge 500$ | **500** | מאוכלס ותקין |
+| `AcademicStaff` | $\ge 500$ | **500** | מאוכלס ותקין |
 | `AttendanceRecord` | $\ge 20,000$ | **20,000** | מאוכלס ותקין |
 | `Employee_Training` | $\ge 20,000$ | **20,000** | מאוכלס ותקין |
 | **סה"כ רשומות במסד** | $\ge 42,000$ | **43,000** | **עמידה מלאה בדרישות** |
@@ -179,9 +205,13 @@
 
 ### צילומי מסך של תהליך הגיבוי:
 
-| גיבוי משורת הפקודה (Docker CLI) | אישור גיבוי בממשק pgAdmin 4 |
-| :---: | :---: |
-| ![גיבוי CLI](../../screenshots/stage1/גיבוי.png) | ![גיבוי pgAdmin](../../screenshots/stage1/pgAdminאישור%20לגיבוי%20של%20קובץ.png) |
+#### גיבוי באמצעות שורת הפקודה (CLI)
+
+<img src="../../screenshots/stage1/גיבוי.png" alt="גיבוי דרך שורת הפקודה" width="100%">
+
+#### גיבוי באמצעות הממשק הגרפי (pgAdmin)
+
+<img src="../../screenshots/stage1/pgAdminאישור%20לגיבוי%20של%20קובץ.png" alt="אישור גיבוי ב־pgAdmin" width="100%">
 
 ### בדיקת שחזור אצל השותף (PostgreSQL 17):
 קובץ הגיבוי הועבר למחשב של השותף ושוחזר בהצלחה מלאה. כל שבע הטבלאות וכל 43,000 הרשומות עלו בצורה תקינה:
@@ -195,8 +225,8 @@
 להרצה מלאה של שלב א׳ על גבי מסד נתונים חדש ונקי:
 
 ```powershell
-# 1. ניווט לתיקיית שלב א'
-cd "C:\Users\yoelm\source\repos\DBProject\.git\collegeProject\DBProject_1532_8415\שלב א"
+# 1. מעבר לתיקיית שלב א' מתוך שורש המאגר
+cd "DBProject_1532_8415\שלב א"
 
 # 2. בניית קובץ האכלוס המאוחד (במידת הצורך)
 python "Programing\build_insert_tables.py"

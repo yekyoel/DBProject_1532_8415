@@ -1,4 +1,6 @@
 # דוח פרויקט מסדי נתונים — שלב ב׳
+
+[חזרה לסיכום הפרויקט](../../README.md)
 ## שאילתות, אילוצים, טרנזקציות ואינדקסים
 
 **מערכת:** מערכת ניהול כוח אדם ומשאבי אנוש למכללה (College Manpower & HR Management System)  
@@ -69,9 +71,11 @@ ORDER BY d.DepartmentName,
          WorkMonth;
 ```
 
-| צילום הרצה (Q1 צורה א׳) | צילום תוצאה — עד 5 שורות (Q1 צורה א׳) |
-| :---: | :---: |
-| ![Q1a Run](../../screenshots/stage2/q1a_run.png) | ![Q1a Result](../../screenshots/stage2/q1a_result.png) |
+
+**צילום תוצאה — עד 5 שורות (Q1 צורה א׳)**
+
+<img src="../../screenshots/stage2/q1a_result.png" alt="Q1a Result" width="100%">
+
 
 #### צורה ב׳ — תת־שאילתה באמצעות CTE (`WITH`):
 ```sql
@@ -105,9 +109,11 @@ JOIN Department d ON ms.DepartmentID = d.DepartmentID
 ORDER BY d.DepartmentName, ms.WorkYear, ms.WorkMonth;
 ```
 
-| צילום הרצה (Q1 צורה ב׳) | צילום תוצאה — עד 5 שורות (Q1 צורה ב׳) |
-| :---: | :---: |
-| ![Q1b Run](../../screenshots/stage2/q1b_run.png) | ![Q1b Result](../../screenshots/stage2/q1b_result.png) |
+
+**צילום תוצאה — עד 5 שורות (Q1 צורה ב׳)**
+
+<img src="../../screenshots/stage2/q1b_result.png" alt="Q1b Result" width="100%">
+
 
 **השוואת יעילות (Q1):**  
 בצורה ב׳ האגרגציה מתבצעת תחילה לפי `DepartmentID` (מזהה מספרי `INTEGER`) על גבי 20,000 רשומות הנוכחות, ורק לאחר צמצום התוצאה ל־264 שורות מתבצע ה־`JOIN` לטבלת `Department` לצורך שליפת שם המחלקה. לעומת זאת, בצורה א׳ ה־`JOIN` לשלוש הטבלאות מתבצע על כל 20,000 השורות לפני הקיבוץ, והקיבוץ נעשה על מחרוזת (`DepartmentName`). לכן **צורה ב׳ יעילה יותר** מבחינת כמות הנתונים שעוברת בצירוף ומבחינת עלות הגיבוב/מיון על מפתח שלם במקום מחרוזת.
@@ -117,7 +123,6 @@ ORDER BY d.DepartmentName, ms.WorkYear, ms.WorkMonth;
 ### Q2 — עובדים שהשלימו ב־2025 יותר השתלמויות מהממוצע של אותה שנה (מסך Staff)
 
 **תיאור השאילתה:** מאתרת את העובדים הפעילים ביותר בלמידה והכשרות בשנת 2025 — מציגה מזהה עובד, שם מלא, מחלקה, סוג סגל ומספר הקורסים שהשלימו ב־2025, עבור עובדים שמספר הקורסים שלהם גבוה מממוצע הקורסים לעובד באותה שנה.
-
 #### צורה א׳ — תת־שאילתה ב־`HAVING`:
 ```sql
 SELECT
@@ -144,9 +149,11 @@ HAVING COUNT(et.CourseID) > (
 ORDER BY CourseCount2025 DESC, e.LastName;
 ```
 
-| צילום הרצה (Q2 צורה א׳ — 100ms) | צילום תוצאה — עד 5 שורות (Q2 צורה א׳) |
-| :---: | :---: |
-| ![Q2a Run](../../screenshots/stage2/q2a_run.png) | ![Q2a Result](../../screenshots/stage2/q2a_result.png) |
+
+**צילום תוצאה — עד 5 שורות (Q2 צורה א׳)**
+
+<img src="../../screenshots/stage2/q2a_result.png" alt="Q2a Result" width="100%">
+
 
 #### צורה ב׳ — טבלה נגזרת (Derived Table) ב־`FROM` + `CROSS JOIN` לממוצע:
 ```sql
@@ -177,9 +184,11 @@ WHERE ec.CourseCount2025 > avg_sub.AvgCourses
 ORDER BY ec.CourseCount2025 DESC, e.LastName;
 ```
 
-| צילום הרצה (Q2 צורה ב׳ — 90ms) | צילום תוצאה — עד 5 שורות (Q2 צורה ב׳) |
-| :---: | :---: |
-| ![Q2b Run](../../screenshots/stage2/q2b_run.png) | ![Q2b Result](../../screenshots/stage2/q2b_result.png) |
+
+**צילום תוצאה — עד 5 שורות (Q2 צורה ב׳)**
+
+<img src="../../screenshots/stage2/q2b_result.png" alt="Q2b Result" width="100%">
+
 
 **השוואת יעילות (Q2):**  
 **צורה ב׳ יעילה יותר** (90ms לעומת 100ms בצורה א׳). בצורה א׳ מצרפים את כל שורות ההשתלמות של 2025 לטבלאות `Employee` ו־`Department` **לפני** הקיבוץ, ומבצעים `GROUP BY` על חמש עמודות (כולל שלוש עמודות טקסט). בצורה ב׳ מקבצים תחילה את `Employee_Training` לפי `EmployeeID` (מפתח מספרי בלבד), ורק את התוצאה המצומצמת מצרפים לעובדים ולמחלקות.
@@ -210,9 +219,11 @@ WHERE e.EmployeeID NOT IN (
 ORDER BY e.LastName, e.FirstName;
 ```
 
-| צילום הרצה (Q3 צורה א׳ — 67ms) | צילום תוצאה — עד 5 שורות (Q3 צורה א׳) |
-| :---: | :---: |
-| ![Q3a Run](../../screenshots/stage2/q3a_run.png) | ![Q3a Result](../../screenshots/stage2/q3a_result.png) |
+
+**צילום תוצאה — עד 5 שורות (Q3 צורה א׳)**
+
+<img src="../../screenshots/stage2/q3a_result.png" alt="Q3a Result" width="100%">
+
 
 #### צורה ב׳ — שימוש ב־`NOT EXISTS` (תת־שאילתה מתואמת):
 ```sql
@@ -235,9 +246,11 @@ WHERE NOT EXISTS (
 ORDER BY e.LastName, e.FirstName;
 ```
 
-| צילום הרצה (Q3 צורה ב׳ — 98ms) | צילום תוצאה — עד 5 שורות (Q3 צורה ב׳) |
-| :---: | :---: |
-| ![Q3b Run](../../screenshots/stage2/q3b_run.png) | ![Q3b Result](../../screenshots/stage2/q3b_result.png) |
+
+**צילום תוצאה — עד 5 שורות (Q3 צורה ב׳)**
+
+<img src="../../screenshots/stage2/q3b_result.png" alt="Q3b Result" width="100%">
+
 
 **השוואת יעילות (Q3):**  
 מבחינה תכנונית וכללית במערכות מסדי נתונים, **`NOT EXISTS` (צורה ב׳) עדיפה ובטוחה יותר**: המתכנן של PostgreSQL ממיר אותה ל־**Hash Anti Join**, שעוצר מיד במציאת הרשומה הראשונה לכל עובד (Short-circuit) ואינו מושפע מערכי `NULL` (בעוד `NOT IN` תחזיר 0 שורות אם תת־השאילתה תכיל `NULL`). כאשר קיים אינדקס על `(EmployeeID, WorkDate)`, `NOT EXISTS` מהירה משמעותית בטבלאות גדולות; ללא אינדקס ועל 500 מזהים בלבד, `Hashed SubPlan` של `NOT IN` עם `DISTINCT` סיים מעט מהר יותר (67ms מול 98ms).
@@ -247,7 +260,6 @@ ORDER BY e.LastName, e.FirstName;
 ### Q4 — ניצול תקציב מול שכר לפי מחלקה (מסך Departments)
 
 **תיאור השאילתה:** מציגה לכל מחלקה את התקציב השנתי שלה, מספר העובדים, סך הוצאות השכר, השכר הממוצע, ואחוז תקציב המחלקה המנוצל לתשלום משכורות.
-
 #### צורה א׳ — `JOIN` + `GROUP BY`:
 ```sql
 SELECT
@@ -263,9 +275,11 @@ GROUP BY d.DepartmentID, d.DepartmentName, d.Budget
 ORDER BY SalaryBudgetPct DESC;
 ```
 
-| צילום הרצה (Q4 צורה א׳) | צילום תוצאה — עד 5 שורות (Q4 צורה א׳ — 101ms) |
-| :---: | :---: |
-| ![Q4a Run](../../screenshots/stage2/q4a_run.png) | ![Q4a Result](../../screenshots/stage2/q4a_result.png) |
+
+**צילום תוצאה — עד 5 שורות (Q4 צורה א׳ — 101ms)**
+
+<img src="../../screenshots/stage2/q4a_result.png" alt="Q4a Result" width="100%">
+
 
 #### צורה ב׳ — פונקציות חלון (`OVER (PARTITION BY ...)`) + `DISTINCT`:
 ```sql
@@ -283,9 +297,11 @@ JOIN Employee e ON d.DepartmentID = e.DepartmentID
 ORDER BY SalaryBudgetPct DESC;
 ```
 
-| צילום הרצה (Q4 צורה ב׳) | צילום תוצאה — עד 5 שורות (Q4 צורה ב׳ — 87ms) |
-| :---: | :---: |
-| ![Q4b Run](../../screenshots/stage2/q4b_run.png) | ![Q4b Result](../../screenshots/stage2/q4b_result.png) |
+
+**צילום תוצאה — עד 5 שורות (Q4 צורה ב׳ — 87ms)**
+
+<img src="../../screenshots/stage2/q4b_result.png" alt="Q4b Result" width="100%">
+
 
 **השוואת יעילות (Q4):**  
 **צורה א׳ (`GROUP BY`) יעילה יותר תאורטית ומבנית** לשאילתות סיכום: `HashAggregate` מצמצם את 1,000 שורות העובדים לשורה אחת לכל מחלקה במעבר יחיד. בצורה ב׳, פונקציות החלון (`WindowAgg`) ממיינות ומחשבות את האגרגציה על כל 1,000 שורות העובדים, ולאחר מכן נדרש שלב `Unique` / `HashAggregate` נוסף עבור ה־`DISTINCT` כדי להסיר שורות כפולות. פונקציות חלון מתאימות כאשר רוצים להציג באותה שורה גם את פרטי העובד הבודד וגם את ממוצע המחלקה שלו.
@@ -318,9 +334,11 @@ WHERE ac.TenureStatus = 'Tenured'
 ORDER BY e.HireDate ASC;
 ```
 
-| צילום הרצה (Q5) | צילום תוצאה — עד 5 שורות (Q5 — 71ms) |
-| :---: | :---: |
-| ![Q5 Run](../../screenshots/stage2/q5_run.png) | ![Q5 Result](../../screenshots/stage2/q5_result.png) |
+
+**צילום תוצאה — עד 5 שורות (Q5 — 71ms)**
+
+<img src="../../screenshots/stage2/q5_result.png" alt="Q5 Result" width="100%">
+
 
 ---
 
@@ -350,9 +368,11 @@ HAVING tc.CourseID IN (
 ORDER BY CompletionCount DESC, CompletionYear, CompletionMonth;
 ```
 
-| צילום הרצה (Q6) | צילום תוצאה — עד 5 שורות (Q6 — 109ms) |
-| :---: | :---: |
-| ![Q6 Run](../../screenshots/stage2/q6_run.png) | ![Q6 Result](../../screenshots/stage2/q6_result.png) |
+
+**צילום תוצאה — עד 5 שורות (Q6 — 109ms)**
+
+<img src="../../screenshots/stage2/q6_result.png" alt="Q6 Result" width="100%">
+
 
 ---
 
@@ -388,16 +408,17 @@ HAVING AVG(
 ORDER BY AvgShiftHours DESC;
 ```
 
-| צילום הרצה (Q7) | צילום תוצאה — עד 5 שורות (Q7 — 85ms) |
-| :---: | :---: |
-| ![Q7 Run](../../screenshots/stage2/q7_run.png) | ![Q7 Result](../../screenshots/stage2/q7_result.png) |
+
+**צילום תוצאה — עד 5 שורות (Q7 — 85ms)**
+
+<img src="../../screenshots/stage2/q7_result.png" alt="Q7 Result" width="100%">
+
 
 ---
 
 ### Q8 — מנהלים בכירים ומספר הכפופים להם באותה מחלקה (מסך Departments)
 
 **תיאור השאילתה:** מצרפת את טבלת הסגל המנהלי לעצמה דרך טבלת העובדים והמחלקות, ומציגה לכל מנהל בכיר (`Director` או `Head of Administration`) שיש לו מעל 5 כפופים באותה מחלקה את מספר הכפופים ואת תאריכי הקליטה המוקדם והמאוחר ביותר של כפופיו.
-
 ```sql
 SELECT
     mgr.EmployeeID                              AS ManagerID,
@@ -421,9 +442,11 @@ HAVING COUNT(sub.EmployeeID) > 5
 ORDER BY SubordinateCount DESC;
 ```
 
-| צילום הרצה (Q8) | צילום תוצאה — עד 5 שורות (Q8 — 85ms) |
-| :---: | :---: |
-| ![Q8 Run](../../screenshots/stage2/q8_run.png) | ![Q8 Result](../../screenshots/stage2/q8_result.png) |
+
+**צילום תוצאה — עד 5 שורות (Q8 — 85ms)**
+
+<img src="../../screenshots/stage2/q8_result.png" alt="Q8 Result" width="100%">
+
 
 ---
 
@@ -443,13 +466,21 @@ WHERE EXTRACT(YEAR  FROM WorkDate) = 2025
   );
 ```
 
-| קוד השאילתה (D1) | תוצאת ההרצה (535 שורות נמחקו) |
-| :---: | :---: |
-| ![D1 Code](../../screenshots/stage2/d1_code.png) | ![D1 Run](../../screenshots/stage2/d1_run.png) |
 
-| מצב הטבלה לפני המחיקה | מצב הטבלה אחרי המחיקה |
-| :---: | :---: |
-| ![D1 Before](../../screenshots/stage2/d1_before.png) | ![D1 After](../../screenshots/stage2/d1_after.png) |
+**תוצאת ההרצה (535 שורות נמחקו)**
+
+<img src="../../screenshots/stage2/d1_run.png" alt="D1 Run" width="100%">
+
+
+
+**מצב הטבלה לפני המחיקה**
+
+<img src="../../screenshots/stage2/d1_before.png" alt="D1 Before" width="100%">
+
+**מצב הטבלה אחרי המחיקה**
+
+<img src="../../screenshots/stage2/d1_after.png" alt="D1 After" width="100%">
+
 
 ---
 
@@ -472,14 +503,28 @@ WHERE et.EmployeeID = e.EmployeeID
   AND et.CompletionDate < e.HireDate;
 ```
 
-| צילום הרצת D2 ו־D3 |
-| :---: |
-| ![D2 D3 Run](../../screenshots/stage2/d2_d3_run.png) |
 
-| מצב לפני D2/D3 | מצב אחרי D2/D3 |
-| :---: | :---: |
-| ![D2 Before](../../screenshots/stage2/d2_before.png) | ![D2 After](../../screenshots/stage2/d2_after.png) |
-| ![D3 Before](../../screenshots/stage2/d3_before.png) | ![D3 After](../../screenshots/stage2/d3_after.png) |
+**צילום הרצת D2 ו־D3**
+
+<img src="../../screenshots/stage2/d2_d3_run.png" alt="D2 D3 Run" width="100%">
+
+
+
+**מצב לפני D2**
+
+<img src="../../screenshots/stage2/d2_before.png" alt="D2 Before" width="100%">
+
+**מצב אחרי D2**
+
+<img src="../../screenshots/stage2/d2_after.png" alt="D2 After" width="100%">
+
+**מצב לפני D3**
+
+<img src="../../screenshots/stage2/d3_before.png" alt="D3 Before" width="100%">
+
+**מצב אחרי D3**
+
+<img src="../../screenshots/stage2/d3_after.png" alt="D3 After" width="100%">
 
 ---
 
@@ -498,13 +543,21 @@ WHERE EmployeeID IN (
 );
 ```
 
-| צילום הרצת U1 (178 שורות עודכנו) |
-| :---: |
-| ![U1 Run](../../screenshots/stage2/u1_run.png) |
 
-| מצב לפני העדכון (U1) | מצב אחרי העדכון (U1) |
-| :---: | :---: |
-| ![U1 Before](../../screenshots/stage2/u1_before.png) | ![U1 After](../../screenshots/stage2/u1_after.png) |
+**צילום הרצת U1 (178 שורות עודכנו)**
+
+<img src="../../screenshots/stage2/u1_run.png" alt="U1 Run" width="100%">
+
+
+
+**מצב לפני העדכון (U1)**
+
+<img src="../../screenshots/stage2/u1_before.png" alt="U1 Before" width="100%">
+
+**מצב אחרי העדכון (U1)**
+
+<img src="../../screenshots/stage2/u1_after.png" alt="U1 After" width="100%">
+
 
 ---
 
@@ -523,13 +576,21 @@ WHERE ManagementLevel = 'Mid'
   );
 ```
 
-| צילום הרצת U2 (15 שורות עודכנו) |
-| :---: |
-| ![U2 Run](../../screenshots/stage2/u2_run.png) |
 
-| מצב לפני העדכון (U2) | מצב אחרי העדכון (U2) |
-| :---: | :---: |
-| ![U2 Before](../../screenshots/stage2/u2_before.png) | ![U2 After](../../screenshots/stage2/u2_after.png) |
+**צילום הרצת U2 (15 שורות עודכנו)**
+
+<img src="../../screenshots/stage2/u2_run.png" alt="U2 Run" width="100%">
+
+
+
+**מצב לפני העדכון (U2)**
+
+<img src="../../screenshots/stage2/u2_before.png" alt="U2 Before" width="100%">
+
+**מצב אחרי העדכון (U2)**
+
+<img src="../../screenshots/stage2/u2_after.png" alt="U2 After" width="100%">
+
 
 ---
 
@@ -548,13 +609,21 @@ WHERE DepartmentID IN (
 );
 ```
 
-| צילום הרצת U3 (שורה אחת עודכנה) |
-| :---: |
-| ![U3 Run](../../screenshots/stage2/u3_run.png) |
 
-| מצב לפני העדכון (U3) | מצב אחרי העדכון (U3) |
-| :---: | :---: |
-| ![U3 Before](../../screenshots/stage2/u3_before.png) | ![U3 After](../../screenshots/stage2/u3_after.png) |
+**צילום הרצת U3 (שורה אחת עודכנה)**
+
+<img src="../../screenshots/stage2/u3_run.png" alt="U3 Run" width="100%">
+
+
+
+**מצב לפני העדכון (U3)**
+
+<img src="../../screenshots/stage2/u3_before.png" alt="U3 Before" width="100%">
+
+**מצב אחרי העדכון (U3)**
+
+<img src="../../screenshots/stage2/u3_after.png" alt="U3 After" width="100%">
+
 
 ---
 
@@ -574,9 +643,19 @@ ROLLBACK;
 SELECT EmployeeID, FirstName, LastName, BaseSalary FROM Employee WHERE EmployeeID = 1;
 ```
 
-| לפני העדכון | אחרי העדכון (בתוך הטרנזקציה) | אחרי ROLLBACK (חזר לקדמותו) |
-| :---: | :---: | :---: |
-| ![Rollback Before](../../screenshots/stage2/rollback_1_before.png) | ![Rollback Updated](../../screenshots/stage2/rollback_2_updated.png) | ![Rollback Restored](../../screenshots/stage2/rollback_3_restored.png) |
+
+**לפני העדכון**
+
+<img src="../../screenshots/stage2/rollback_1_before.png" alt="Rollback Before" width="100%">
+
+**אחרי העדכון (בתוך הטרנזקציה)**
+
+<img src="../../screenshots/stage2/rollback_2_updated.png" alt="Rollback Updated" width="100%">
+
+**אחרי ROLLBACK (חזר לקדמותו)**
+
+<img src="../../screenshots/stage2/rollback_3_restored.png" alt="Rollback Restored" width="100%">
+
 
 ### ב. הדגמת COMMIT
 פתחנו טרנזקציה (`BEGIN`), הגדלנו את תקציב מחלקה 101 ב־10%, הצגנו את מצב הטבלה לאחר העדכון, ביצענו `COMMIT`, והצגנו שהשינוי נשמר בבסיס הנתונים לצמיתות.
@@ -590,9 +669,19 @@ COMMIT;
 SELECT DepartmentID, DepartmentName, Budget FROM Department WHERE DepartmentID = 101;
 ```
 
-| לפני העדכון | אחרי העדכון (בתוך הטרנזקציה) | אחרי COMMIT (נשמר לצמיתות) |
-| :---: | :---: | :---: |
-| ![Commit Before](../../screenshots/stage2/commit_1_before.png) | ![Commit Updated](../../screenshots/stage2/commit_2_updated.png) | ![Commit Persisted](../../screenshots/stage2/commit_3_persisted.png) |
+
+**לפני העדכון**
+
+<img src="../../screenshots/stage2/commit_1_before.png" alt="Commit Before" width="100%">
+
+**אחרי העדכון (בתוך הטרנזקציה)**
+
+<img src="../../screenshots/stage2/commit_2_updated.png" alt="Commit Updated" width="100%">
+
+**אחרי COMMIT (נשמר לצמיתות)**
+
+<img src="../../screenshots/stage2/commit_3_persisted.png" alt="Commit Persisted" width="100%">
+
 
 ---
 
@@ -611,9 +700,19 @@ SELECT DepartmentID, DepartmentName, Budget FROM Department WHERE DepartmentID =
 
 ### ניסיונות הכנסת נתונים הסותרים את האילוצים (שגיאות הרצה):
 
-| הפרת אילוץ C1 (`BaseSalary = 3000`) | הפרת אילוץ C2 (`ClockInTime = '03:00:00'`) | הפרת אילוץ C3 (תאריך כפול לאותו עובד) |
-| :---: | :---: | :---: |
-| ![C1 Error](../../screenshots/stage2/c1_error.png) | ![C2 Error](../../screenshots/stage2/c2_error.png) | ![C3 Error](../../screenshots/stage2/c3_error.png) |
+
+**הפרת אילוץ C1 (`BaseSalary = 3000`)**
+
+<img src="../../screenshots/stage2/c1_error.png" alt="C1 Error" width="100%">
+
+**הפרת אילוץ C2 (`ClockInTime = '03:00:00'`)**
+
+<img src="../../screenshots/stage2/c2_error.png" alt="C2 Error" width="100%">
+
+**הפרת אילוץ C3 (תאריך כפול לאותו עובד)**
+
+<img src="../../screenshots/stage2/c3_error.png" alt="C3 Error" width="100%">
+
 
 ---
 
@@ -630,19 +729,37 @@ SELECT DepartmentID, DepartmentName, Budget FROM Department WHERE DepartmentID =
 ### צילומי הרצה של `EXPLAIN ANALYZE` — לפני ואחרי כל אינדקס:
 
 #### אינדקס 1 (`idx_employee_departmentid` על `Employee.DepartmentID`):
-| לפני יצירת האינדקס (`Seq Scan`) | אחרי יצירת האינדקס (`Bitmap Index Scan`) |
-| :---: | :---: |
-| ![Index 1 Before](../../screenshots/stage2/idx1_before.png) | ![Index 1 After](../../screenshots/stage2/idx1_after.png) |
+
+**לפני יצירת האינדקס (`Seq Scan`)**
+
+<img src="../../screenshots/stage2/idx1_before.png" alt="Index 1 Before" width="100%">
+
+**אחרי יצירת האינדקס (`Bitmap Index Scan`)**
+
+<img src="../../screenshots/stage2/idx1_after.png" alt="Index 1 After" width="100%">
+
 
 #### אינדקס 2 (`idx_attendance_workdate` על `AttendanceRecord.WorkDate`):
-| לפני יצירת האינדקס (`2.245 ms` — `Seq Scan`) | אחרי יצירת האינדקס (`0.757 ms` — `Bitmap Index Scan`) |
-| :---: | :---: |
-| ![Index 2 Before](../../screenshots/stage2/idx2_before.png) | ![Index 2 After](../../screenshots/stage2/idx2_after.png) |
+
+**לפני יצירת האינדקס (`2.245 ms` — `Seq Scan`)**
+
+<img src="../../screenshots/stage2/idx2_before.png" alt="Index 2 Before" width="100%">
+
+**אחרי יצירת האינדקס (`0.757 ms` — `Bitmap Index Scan`)**
+
+<img src="../../screenshots/stage2/idx2_after.png" alt="Index 2 After" width="100%">
+
 
 #### אינדקס 3 (`idx_training_completiondate` על `Employee_Training.CompletionDate`):
-| לפני יצירת האינדקס (`15.982 ms`) | אחרי יצירת האינדקס (`3.496 ms`) |
-| :---: | :---: |
-| ![Index 3 Before](../../screenshots/stage2/idx3_before.png) | ![Index 3 After](../../screenshots/stage2/idx3_after.png) |
+
+**לפני יצירת האינדקס (`15.982 ms`)**
+
+<img src="../../screenshots/stage2/idx3_before.png" alt="Index 3 Before" width="100%">
+
+**אחרי יצירת האינדקס (`3.496 ms`)**
+
+<img src="../../screenshots/stage2/idx3_after.png" alt="Index 3 After" width="100%">
+
 
 **הסבר התוצאות:**
 - **אינדקס I1 (`Employee.DepartmentID`):** לפני הוספת האינדקס מתכנן השאילתות ביצע **Seq Scan** על כל 1,000 שורות טבלת `Employee` וסינן החוצה 947 שורות (`cost=35.32`). לאחר הוספת האינדקס המתכנן עבר ל־**Bitmap Index Scan + Bitmap Heap Scan** על 53 השורות הרלוונטיות בלבד והוריד את העלות החזויה ל־`28.17`. בריצה הראשונה מיד לאחר יצירת האינדקס נדרשה קריאה ראשונית של שני בלוקים מהדיסק (`read=2`) ולכן הזמן בפועל היה 0.945ms לעומת 0.387ms מהזיכרון המטמון בטבלה קטנה של 14 דפים בלבד. בטבלאות גדולות יותר החיסכון של ה־Bitmap Index Scan משמעותי מאוד.
